@@ -33,11 +33,11 @@ class ApiService {
   }
 
   Future<List<CurrencyModel>> getExchange(
-     String baseCurrrency, String targetCurrency,String value) async {
+     String baseCurrrency, String targetCurrency) async {
     List<CurrencyModel> currencyModelList = [];
 
     String url =
-        '${base_url}latest?apikey=$apikey&base_currency=$baseCurrrency&currencies=$targetCurrency&value=$value';
+        '${base_url}latest?apikey=$apikey&base_currency=$baseCurrrency&currencies=$targetCurrency';
 
     try {
       final response = await http.get(Uri.parse(url));

@@ -125,8 +125,7 @@ class _ExchangeState extends State<Exchange> {
                         await apiService
                             .getExchange(
                                 _selectedBaseCurrency,
-                                _selectedTargetCurrency,
-                                _textController.text.toString())
+                                _selectedTargetCurrency)
                             .then((result) {
                           if (result != null) {
                             isVisible = true;

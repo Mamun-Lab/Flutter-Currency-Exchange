@@ -9,8 +9,8 @@ class AllCurrencyListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-      margin: EdgeInsets.all(8),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
           color: Colors.blue.withAlpha(88),
           borderRadius: BorderRadius.circular(10)),
@@ -19,7 +19,7 @@ class AllCurrencyListItem extends StatelessWidget {
         children: [
           Text(
             currencyModel.code.toString(),
-            style: TextStyle(color: Colors.white, fontSize: 17),
+            style: const TextStyle(color: Colors.white, fontSize: 17),
           ),
           Text(
             currencyModel
@@ -27,7 +27,7 @@ class AllCurrencyListItem extends StatelessWidget {
                 ?.toStringAsFixed(2)
                 .toString() ??
                 "",
-            style: TextStyle(color: Colors.white, fontSize: 17),
+            style: const TextStyle(color: Colors.white, fontSize: 17),
           ),
         ],
       ),

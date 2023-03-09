@@ -37,67 +37,71 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          List<CurrencyModel> currencyModel = snapshot.data ?? [];
-          return Column(
-            children: [
-              const SizedBox(
-                height: 8,
-              ),
-              const Text(
-                "Base Currency",
-                style: TextStyle(fontSize: 20, color: Colors.white),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Container(
-                margin: const EdgeInsets.all(10),
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)),
-                child: CountryPickerDropdown(
-                  initialValue: 'us',
-                  itemBuilder: _buildCurrencyDropdownItem,
-                  onValuePicked: (Country? country) {
-                    print("${country?.name}");
-                    setState(() {
-                      _selectedCurrency = country?.currencyCode ?? "";
-                    });
+    return Column(
+      children: [
+        const SizedBox(
+          height: 8,
+        ),
+        const Text(
+          "Base Currency",
+          style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        Container(
+          margin: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(10)),
+          child: CountryPickerDropdown(
+            initialValue: 'us',
+            itemBuilder: _buildCurrencyDropdownItem,
+            onValuePicked: (Country? country) {
+              print("${country?.name}");
+              setState(() {
+                _selectedCurrency = country?.currencyCode ?? "";
+              });
+            },
+          ),
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        const Text(
+          "All Currency",
+          style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        Expanded(
+          child: FutureBuilder(
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<CurrencyModel> currencyModelList = snapshot.data ?? [];
+                return ListView.builder(
+                  itemBuilder: (context, index) {
+                    return AllCurrencyListItem(
+                      currencyModel: currencyModelList[index],
+                    );
                   },
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              const Text(
-                "All Currency",
-                style: TextStyle(fontSize: 20, color: Colors.white),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Expanded(
-                  child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return AllCurrencyListItem(
-                    currencyModel: currencyModel[index],
-                  );
-                },
-                itemCount: currencyModel.length,
-              ))
-            ],
-          );
-        }
-
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-      future: apiService.getLatest(_selectedCurrency),
+                  itemCount: currencyModelList.length,
+                );
+              }
+              if (snapshot.hasError) {
+                return const Center(
+                  child: Text("Error occured"),
+                );
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+            future: apiService.getLatest(_selectedCurrency),
+          ),
+        )
+      ],
     );
   }
 }
